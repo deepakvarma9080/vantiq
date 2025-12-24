@@ -56,27 +56,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 /* ================= MOBILE MENU ================= */
 .menu-toggle{
-  display:none;
-  position:absolute;
-  top:20px;
-  right:20px;
-  font-size:28px;
-  background:none;
-  border:none;
-  color:#fff;
-  cursor:pointer;
+  display:none;position:absolute;top:20px;right:20px;
+  font-size:28px;background:none;border:none;color:#fff;
 }
-
 @media(max-width:768px){
   .navbar{
     display:none;
     flex-direction:column;
     background:#000;
     position:absolute;
-    top:90px;
+    top:100%;
+    left:0;
     width:100%;
-    text-align:center;
-    z-index:1000;
+    z-index:10001;
   }
   .menu-toggle{display:block}
 }
@@ -412,5 +404,6 @@ function sendMessage(e){
 
 </body>
 </html>
+
 
 
