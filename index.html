@@ -595,10 +595,13 @@ body {
 </header>
 
 <div class="search-bar-container">
-  <button class="filter-btn" onclick="toggleFilter()">☰ Filter</button>
+  <button class="filter-btn" onclick="toggleProfile()">
+  <i class="fa-solid fa-user"></i> Profile
+</button>
+
   <div class="search-box">
     <input type="text" placeholder="Search products..." onkeyup="searchProducts()">
-    <button onclick="goPage('login.html')" >🔍</button>
+    <button>🔍</button>
   </div>
   <button class="login-btn">Login</button>
 </div>
@@ -644,7 +647,7 @@ body {
     </div>
 
     <!-- SMALL CARDS -->
-<div class="card small clickable" style="background-image:url('contener.png')">
+<div class="card small clickable" style="background-image:url('logo1.jpg')">
   <div class="overlay"></div>
   <div class="content">
     <h4>Transparent Case</h4>
@@ -652,7 +655,7 @@ body {
   </div>
 </div>
 
-<div class="card small clickable" style="background-image:url('images1.jpeg')">
+<div class="card small clickable" style="background-image:url('logo1.jpg')">
   <div class="overlay"></div>
   <div class="content">
     <h4>Silicone Cover</h4>
@@ -660,7 +663,7 @@ body {
   </div>
 </div>
 
-<div class="card small clickable" style="background-image:url('images1.jpeg')">
+<div class="card small clickable" style="background-image:url('logo1.jpg')">
   <div class="overlay"></div>
   <div class="content">
     <h4>Printed Cover</h4>
@@ -762,37 +765,31 @@ body {
 </footer>
 
 <!-- OVERLAY -->
-<div class="filter-overlay" id="filterOverlay" onclick="toggleFilter()"></div>
+<div class="filter-overlay" id="profileOverlay" onclick="toggleProfile()"></div>
 
 <!-- FILTER PANEL -->
-<div class="filter-panel" id="filterPanel">
+<!-- PROFILE PANEL -->
+<div class="filter-panel" id="profilePanel">
   <div class="filter-header">
-    <h3>Filter Products</h3>
-    <button onclick="toggleFilter()">✖</button>
+    <h3>My Profile</h3>
+    <button onclick="toggleProfile()">✖</button>
+  </div>
+
+  <div style="text-align:center;margin:20px 0">
+    <img src="logo1.jpg" style="width:90px;height:90px;border-radius:50%">
+    <h4 style="margin:10px 0 5px">Guest User</h4>
+    <p style="font-size:13px;opacity:.7">guest@vantiq.com</p>
   </div>
 
   <div class="filter-section">
-    <h4>Price</h4>
-    <label><input type="radio" name="price" value="0-500"> Under ₹500</label>
-    <label><input type="radio" name="price" value="500-1000"> ₹500–₹1000</label>
-    <label><input type="radio" name="price" value="1000+"> Above ₹1000</label>
+    <button class="apply-filter" onclick="goPage('login.html')">Login / Signup</button>
+    <button class="apply-filter" onclick="goPage('orders.html')">My Orders</button>
+    <button class="apply-filter" onclick="goPage('wishlist.html')">Wishlist</button>
+    <button class="apply-filter" onclick="goPage('profile.html')">Edit Profile</button>
+    <button class="apply-filter" style="background:#444">Logout</button>
   </div>
-
-  <div class="filter-section">
-    <h4>Category</h4>
-    <label><input type="checkbox" value="superhero"> Superhero</label>
-    <label><input type="checkbox" value="galaxy"> Galaxy</label>
-  </div>
-
-  <div class="filter-section">
-    <h4>Rating</h4>
-    <label><input type="radio" name="rating" value="4"> 4★ & above</label>
-    <label><input type="radio" name="rating" value="3"> 3★ & above</label>
-  </div>
-
-  <button class="apply-filter" onclick="applyFilters()">Apply Filters</button>
-  <button class="apply-filter" style="background:#444" onclick="clearFilters()">Clear All</button>
 </div>
+
 
 <script>
 window.onload=()=>updateCartCount();
@@ -811,38 +808,6 @@ function searchProducts(){
   document.querySelectorAll(".product-card").forEach(c=>{
     c.style.display = c.dataset.name.toLowerCase().includes(v) ? "flex" : "none";
   });
-}
-
-function toggleFilter(){
-  const panel=document.getElementById("filterPanel");
-  const overlay=document.getElementById("filterOverlay");
-  panel.classList.toggle("open");
-  overlay.classList.toggle("show");
-}
-
-function applyFilters(){
-  const price=document.querySelector('input[name="price"]:checked')?.value;
-  const rating=document.querySelector('input[name="rating"]:checked')?.value;
-  const cats=[...document.querySelectorAll('.filter-section input[type="checkbox"]:checked')].map(c=>c.value);
-
-  document.querySelectorAll(".product-card").forEach(card=>{
-    let show=true;
-    if(price){
-      const p=+card.dataset.price;
-      if(price==="0-500" && p>500) show=false;
-      if(price==="500-1000" && (p<500||p>1000)) show=false;
-      if(price==="1000+" && p<1000) show=false;
-    }
-    if(rating && +card.dataset.rating<rating) show=false;
-    if(cats.length && !cats.includes(card.dataset.category)) show=false;
-    card.style.display=show?"flex":"none";
-  });
-  toggleFilter();
-}
-
-function clearFilters(){
-  document.querySelectorAll('#filterPanel input').forEach(i=>i.checked=false);
-  document.querySelectorAll('.product-card').forEach(c=>c.style.display="flex");
 }
 
 function goPage(url){window.location.href=url;}
@@ -869,13 +834,22 @@ function filterByBrand(brand){
 </script>
 
 <script>
+function toggleProfile(){
+  const panel = document.getElementById("profilePanel");
+  const overlay = document.getElementById("profileOverlay");
+  panel.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
+
+<script>
 const hotData = [
   {
     brand: "vivo",
     title: "X200 FE 5G",
     price: "₹53,599*",
     note: "*Inclusive of all Offers",
-    img: "images/vivo.png",
+    img: "logo1.jpg",
     link: "category.html?brand=vivo"
   },
   {
@@ -937,5 +911,3 @@ const slider = document.getElementById("hotSlider");
 </script>
 </body>
 </html>
-
-
