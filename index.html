@@ -615,6 +615,11 @@ body {
 @media(max-width:768px){
   .hot-arrow{ display:none; } /* hide arrows on mobile */
 }
+@media(min-width:769px){ 
+  .hot-arrow{
+    display:none !important;
+  }
+}
 
 
 </style>
@@ -670,12 +675,6 @@ body {
   
 <section class="whats-hot">
   <h2>What's Hot</h2>
-
-  <!-- LEFT ARROW -->
-  <button class="hot-arrow left" onclick="scrollHot(-1)">❮</button>
-
-  <!-- RIGHT ARROW -->
-  <button class="hot-arrow right" onclick="scrollHot(1)">❯</button>
 
   <div class="hot-wrapper">
     <div class="hot-slider" id="hotSlider"></div>
@@ -992,4 +991,5 @@ function scrollHot(dir){
 
 </body>
 </html>
+
 
