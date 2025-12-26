@@ -378,16 +378,40 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#000}
 }
 
 /* SLIDER */
+/* SLIDER FIXED */
 .hot-wrapper{
-  overflow:hidden;
+  position:relative;
+  overflow-x:auto;                 /* ✅ mobile hand scroll */
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* hide scrollbar */
+.hot-wrapper::-webkit-scrollbar{
+  display:none;
 }
 
 .hot-slider{
   display:flex;
   gap:25px;
   width:max-content;
-  animation: scrollHot 30s linear infinite;
 }
+
+/* DESKTOP auto scroll */
+@media(min-width:769px){
+  .hot-slider{
+    animation: scrollHot 30s linear infinite;
+  }
+}
+
+/* MOBILE: stop auto scroll */
+@media(max-width:768px){
+  .hot-slider{
+    animation:none;
+  }
+}
+
 
 /* AUTO SCROLL */
 @keyframes scrollHot{
@@ -571,6 +595,27 @@ body {
   transform: scale(1.03);
 }
 
+.hot-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#fff;
+  color:#000;
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
+}
+
+.hot-arrow.left{ left:5px; }
+.hot-arrow.right{ right:5px; }
+
+@media(max-width:768px){
+  .hot-arrow{ display:none; } /* hide arrows on mobile */
+}
+
 
 </style>
 </head>
@@ -622,13 +667,21 @@ body {
   </div>
 
 </section>
+  
 <section class="whats-hot">
   <h2>What's Hot</h2>
+
+  <!-- LEFT ARROW -->
+  <button class="hot-arrow left" onclick="scrollHot(-1)">❮</button>
+
+  <!-- RIGHT ARROW -->
+  <button class="hot-arrow right" onclick="scrollHot(1)">❯</button>
 
   <div class="hot-wrapper">
     <div class="hot-slider" id="hotSlider"></div>
   </div>
 </section>
+
 
 <section class="launches">
   <h2>Latest Mobile Cover Launches</h2>
@@ -909,5 +962,34 @@ const slider = document.getElementById("hotSlider");
     });
   });
 </script>
+
+<script>
+const hotWrapper = document.querySelector(".hot-wrapper");
+const hotSlider  = document.querySelector(".hot-slider");
+
+/* Pause auto-scroll on touch or mouse */
+["touchstart","mousedown"].forEach(evt=>{
+  hotWrapper.addEventListener(evt,()=>{
+    hotSlider.style.animationPlayState = "paused";
+  });
+});
+
+/* Resume auto-scroll */
+["touchend","mouseup","mouseleave"].forEach(evt=>{
+  hotWrapper.addEventListener(evt,()=>{
+    hotSlider.style.animationPlayState = "running";
+  });
+});
+
+/* Arrow button scroll */
+function scrollHot(dir){
+  hotWrapper.scrollBy({
+    left: dir * 320,
+    behavior: "smooth"
+  });
+}
+</script>
+
 </body>
 </html>
+
