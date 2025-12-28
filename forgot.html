@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forgot Password Flow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="C:\Users\ADMIN\Desktop\Website\css\style.css">
+
+<style>
+  .hidden { display: none; }
+  .toggle { cursor: pointer; margin-left: 8px; }
+</style>
+</head>
+
+<body>
+
+<div class="bg-container">
+  <video autoplay muted loop playsinline>
+    <source src="C:\Users\ADMIN\Desktop\Website\image\video1.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="login-card">
+
+  <!-- VISUAL -->
+  <div class="visual">
+    <h1 id="visualTitle">RESET<br>ACCESS</h1>
+    <p id="visualText">Email verification required</p>
+  </div>
+
+  <!-- BOX -->
+  <div class="login-box">
+
+    <!-- STEP 1: EMAIL -->
+    <div id="stepEmail">
+      <h2>Forgot Password</h2>
+      <span>Enter registered email</span>
+
+      <form onsubmit="return sendOTP()">
+        <div class="input-group">
+          <i class="fa fa-envelope"></i>
+          <input type="email" id="email" placeholder="Email address" required>
+        </div>
+
+        <button type="submit">SEND OTP</button>
+
+        <p class="signup">
+          <a href="login.html">Back to Login</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- STEP 2: OTP -->
+    <div id="stepOTP" class="hidden">
+      <h2>Verify OTP</h2>
+      <span>Enter 6-digit OTP</span>
+
+      <form onsubmit="return verifyOTP()">
+        <div class="input-group">
+          <i class="fa fa-key"></i>
+          <input type="text" id="otp" placeholder="Enter OTP" maxlength="6" required>
+        </div>
+
+        <button type="submit">VERIFY OTP</button>
+      </form>
+    </div>
+
+    <!-- STEP 3: RESET PASSWORD -->
+    <div id="stepReset" class="hidden">
+      <h2>Reset Password</h2>
+
+      <form onsubmit="return resetPassword()">
+
+        <div class="input-group">
+          <i class="fa fa-lock"></i>
+          <input type="password" id="newPassword" placeholder="New Password" required>
+          <i class="fa fa-eye toggle" onclick="togglePassword('newPassword', this)"></i>
+        </div>
+
+        <div class="input-group">
+          <i class="fa fa-lock"></i>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+          <i class="fa fa-eye toggle" onclick="togglePassword('confirmPassword', this)"></i>
+        </div>
+
+        <button type="submit">UPDATE PASSWORD</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script src="C:\Users\ADMIN\Desktop\Website\js\auth.js"></script>
+
+</body>
+</html>
