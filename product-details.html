@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VANTIQ Product</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+/* ===== LAYOUT ===== */
+.view-container{
+  max-width:1200px;
+  margin:30px auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:40px;
+}
+
+/* ===== IMAGE GALLERY ===== */
+.image-box{
+  background:#111;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #ff2e2e;
+}
+.main-img{
+  width:100%;
+  height:520px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.thumb-row{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.thumb-row img{
+  width:70px;
+  height:100px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+  border:1px solid #222;
+}
+.thumb-row img:hover{
+  border-color:#ff2e2e;
+}
+
+/* ===== DETAILS ===== */
+.details{
+  background:#111;
+  padding:24px;
+  border-radius:16px;
+  border:1px solid #ff2e2e;
+}
+.details h1{
+  font-size:26px;
+  margin:0 0 10px;
+}
+
+.price-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.price{
+  font-size:26px;
+  color:#ff2e2e;
+  font-weight:bold;
+}
+.mrp{
+  text-decoration:line-through;
+  color:#888;
+}
+.discount{
+  color:#26a541;
+  font-weight:bold;
+}
+
+/* ===== BUTTONS ===== */
+.action-row{
+  display:flex;
+  gap:14px;
+  margin:25px 0;
+}
+.btn{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.add-cart{background:#ff9f00;color:#000}
+.buy-now{background:#ff2e2e;color:#000}
+
+/* ===== DESC & HIGHLIGHTS ===== */
+.info-box{
+  background:#0b0b0b;
+  padding:16px;
+  border-radius:10px;
+  border:1px solid #222;
+  margin-top:16px;
+}
+.info-box h3{
+  color:#ff2e2e;
+  margin-bottom:8px;
+}
+.highlight-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.highlight-list li{
+  padding:6px 0;
+  border-bottom:1px solid #222;
+}
+.highlight-list li::before{
+  content:"✔ ";
+  color:#ff2e2e;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .view-container{grid-template-columns:1fr}
+  .main-img{height:450px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="view-container">
+
+  <!-- IMAGE -->
+  <div class="image-box">
+    <img id="mainImage" class="main-img">
+    <div class="thumb-row" id="thumbs"></div>
+  </div>
+
+  <!-- DETAILS -->
+  <div class="details">
+    <h1 id="pName"></h1>
+    <p style="opacity:.8;font-size:14px">
+  <strong>Brand:</strong> <span id="pBrand"></span>
+</p>
+<p style="opacity:.8;font-size:14px">
+  <strong>Phone Model:</strong> <span id="pModel"></span>
+</p>
+
+    <div class="price-row">
+      <span class="price" id="pPrice"></span>
+      <span class="mrp" id="pMrp"></span>
+      <span class="discount" id="pDiscount"></span>
+    </div>
+
+    <div class="action-row">
+      <button class="btn add-cart" onclick="addToCart()">ADD TO CART</button>
+      <button class="btn buy-now">BUY NOW</button>
+    </div>
+
+    <div class="info-box">
+      <h3>Description</h3>
+      <p id="pDesc"></p>
+    </div>
+
+    <div class="info-box">
+      <h3>Highlights</h3>
+      <ul class="highlight-list" id="pHighlights"></ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const id = new URLSearchParams(window.location.search).get("id");
+
+async function loadProduct(){
+  const res = await fetch("http://localhost:5000/api/product/" + id);
+  const p = await res.json();
+
+  document.getElementById("pName").innerText = p.name;
+  document.getElementById("pPrice").innerText = "₹" + p.price;
+  document.getElementById("pBrand").innerText = p.brand || "-";
+  document.getElementById("pModel").innerText = p.phone_model || "-";
+  document.getElementById("pDesc").innerText = p.description || "";
+
+  if(p.original_price){
+    document.getElementById("pMrp").innerText = "₹" + p.original_price;
+    document.getElementById("pDiscount").innerText =
+      Math.round(((p.original_price - p.price)/p.original_price)*100) + "% OFF";
+  }
+
+  /* ===== IMAGES ===== */
+  const main = document.getElementById("mainImage");
+  const thumbs = document.getElementById("thumbs");
+
+  if (p.images && p.images.length) {
+  main.src = "http://localhost:5000/uploads/" + p.images[0];
+
+  p.images.forEach(img => {
+    const t = document.createElement("img");
+    t.src = "http://localhost:5000/uploads/" + img;
+
+    t.onclick = () => {
+      main.src = "http://localhost:5000/uploads/" + img;
+    };
+
+    thumbs.appendChild(t);
+  });
+}
+
+
+  /* ===== HIGHLIGHTS (STRING → LIST) ===== */
+  const ul = document.getElementById("pHighlights");
+  ul.innerHTML = "";
+
+  if(p.highlights){
+    p.highlights.split("\n").forEach(line=>{
+      const li = document.createElement("li");
+      li.innerText = line;
+      ul.appendChild(li);
+    });
+  }
+}
+
+function addToCart(){
+  const token = localStorage.getItem("token");
+  if(!token){
+    alert("Please login first");
+    location.href="login.html";
+    return;
+  }
+
+  fetch("http://localhost:5000/api/cart/add",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+token
+    },
+    body:JSON.stringify({ productId:id })
+  })
+  .then(res=>res.json())
+  .then(()=>alert("Added to cart ✅"));
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>

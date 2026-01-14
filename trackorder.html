@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order | VANTIQ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;}
+body{background:#f4f4f4;padding:20px;}
+.track-container{max-width:600px;margin:40px auto;background:#fff;padding:30px 25px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+h1{text-align:center;margin-bottom:25px;color:#333;}
+.track-form{display:flex;flex-direction:column;gap:15px;}
+.track-form input[type="text"]{padding:12px;border-radius:8px;border:1px solid #ccc;font-size:16px;width:100%;}
+.track-form button{padding:12px;border:none;border-radius:8px;background:#000;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;transition:all 0.3s ease;}
+.track-form button:hover{background:#333;transform:translateY(-2px);}
+.status-container{margin-top:30px;}
+.status-step{display:flex;align-items:center;margin-bottom:20px;}
+.status-step i{font-size:24px;margin-right:15px;color:#ccc;}
+.status-step.completed i{color:#4BB543;}
+.status-step span{font-size:16px;color:#333;}
+.status-step.completed span{font-weight:bold;}
+.error-msg{color:red;text-align:center;margin-top:15px;}
+@media(max-width:500px){.track-container{padding:25px 20px;}}
+
+</style>
+</head>
+<body>
+
+<div class="track-container">
+  <h1>Track Your Order</h1>
+  <form class="track-form" id="trackForm">
+    <input type="text" id="orderId" placeholder="Enter your Order ID" required>
+    <button type="submit"><i class="fas fa-search"></i> Track Order</button>
+  </form>
+
+  <div class="error-msg" id="errorMsg" style="display:none;"></div>
+
+  <div class="status-container" id="statusContainer" style="display:none;">
+    <div class="status-step" id="step1"><i class="fas fa-check-circle"></i> <span>Order Placed</span></div>
+    <div class="status-step" id="step2"><i class="fas fa-box"></i> <span>Processing</span></div>
+    <div class="status-step" id="step3"><i class="fas fa-truck"></i> <span>Shipped</span></div>
+    <div class="status-step" id="step4"><i class="fas fa-home"></i> <span>Delivered</span></div>
+  </div>
+  <div id="edd" style="
+  margin-top:20px;
+  font-size:16px;
+  font-weight:bold;
+  text-align:center;
+  display:none;
+">
+</div>
+
+</div>
+
+<script>
+const form = document.getElementById("trackForm");
+const statusContainer = document.getElementById("statusContainer");
+const errorMsg = document.getElementById("errorMsg");
+const eddBox = document.getElementById("edd");
+
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d.toDateString();
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const orderId = document.getElementById("orderId").value.trim();
+  if (!orderId) return;
+
+  statusContainer.style.display = "none";
+  errorMsg.style.display = "none";
+  eddBox.style.display = "none";
+
+  document.querySelectorAll(".status-step").forEach(step => {
+    step.classList.remove("completed");
+  });
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Please login first");
+
+    const res = await fetch("http://localhost:5000/api/orders/my", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    if (!res.ok) throw new Error("Unable to fetch orders");
+
+    const orders = await res.json();
+    const order = orders.find(o => o._id === orderId);
+
+    if (!order) throw new Error("Order not found");
+
+    statusContainer.style.display = "block";
+    eddBox.style.display = "block";
+
+    const status = order.status;
+    const orderDate = order.createdAt;
+
+    /* ✅ STATUS UI */
+    if (status === "Pending") {
+      document.getElementById("step1").classList.add("completed");
+      document.getElementById("step2").classList.add("completed");
+      eddBox.innerText = "📦 Estimated Delivery: " + addDays(orderDate, 5);
+    }
+
+    if (status === "Shipped") {
+      document.getElementById("step3").classList.add("completed");
+      eddBox.innerText = "🚚 Expected by: " + addDays(orderDate, 3);
+    }
+
+    if (status === "Delivered") {
+      document.getElementById("step4").classList.add("completed");
+      eddBox.innerText = "✅ Delivered successfully";
+    }
+
+  } catch (err) {
+    errorMsg.style.display = "block";
+    errorMsg.textContent = err.message;
+  }
+});
+</script>
+
+
+
+</body>
+</html>

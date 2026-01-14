@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Services | VANTIQ Creation</title>
+
+<style>
+/* ================= RESET ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* ================= TOP BAR ================= */
+.top-bar{
+  background:#fc0303;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  padding:8px 40px;
+  font-size:10px;
+}
+
+/* ================= HEADER ================= */
+.logo-header{
+  text-align:center;
+  padding:20px;
+  background:#000;
+  position:relative;
+}
+
+.logo-header img{
+  height:100px;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  background:#000;
+  padding:14px 0;
+}
+
+.navbar a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.navbar a:hover{
+  color:#ff2e2e;
+}
+
+/* ================= MOBILE MENU ================= */
+.menu-toggle{
+  display:none;position:absolute;top:20px;right:20px;
+  font-size:28px;background:none;border:none;color:#fff;
+}
+@media(max-width:768px){
+  .navbar{
+    display:none;
+    flex-direction:column;
+    background:#000;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    z-index:10001;
+  }
+  .menu-toggle{display:block}
+}
+
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  height:60vh;
+  overflow:hidden;
+}
+
+/* VIDEO */
+.hero-video{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
+  background:url("image/services-bg.jpg") center/cover no-repeat;
+}
+
+/* DARK OVERLAY */
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:2;
+}
+
+/* TEXT CONTENT */
+.hero-content{
+  position:relative;
+  z-index:3;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  text-align:center;
+}
+
+.hero-content h1{
+  font-size:48px;
+}
+
+.hero-content p{
+  margin-top:10px;
+  font-size:18px;
+}
+
+
+/* ================= SERVICES ================= */
+.services{
+  background:#111;
+  padding:60px 20px;
+}
+
+.services h2{
+  text-align:center;
+  color:#fff;
+  margin-bottom:40px;
+  font-size:36px;
+}
+
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.service-card{
+  background:#1b1b1b;
+  color:#fff;
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+  transition:.3s;
+}
+
+.service-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 10px 30px rgba(255,46,46,.3);
+}
+
+.service-card span{
+  font-size:42px;
+  display:block;
+  margin-bottom:15px;
+}
+
+.service-card h3{
+  margin-bottom:10px;
+}
+
+/* ================= FEATURES ================= */
+.features{
+  display:flex;
+  justify-content:space-around;
+  background:#111;
+  padding:40px 20px;
+  text-align:center;
+  flex-wrap:wrap;
+}
+
+.feature{
+  color:#fff;
+  margin:10px;
+}
+
+.feature span{
+  font-size:36px;
+}
+
+.feature p{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+/* ================= FOOTER (UNCHANGED) ================= */
+.footer{
+  background:#000;
+  color:#ccc;
+  padding:40px 20px 10px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:30px;
+}
+
+.footer-col h4{
+  color:#fff;
+  margin-bottom:15px;
+}
+
+.footer-col button{
+  display:block;
+  background:none;
+  border:none;
+  color:#ccc;
+  margin:6px 0;
+  cursor:pointer;
+  text-align:left;
+}
+
+.footer-col button:hover{
+  color:#ff2e2e;
+}
+
+.email-box{
+  display:flex;
+  margin-top:10px;
+}
+
+.email-box input{
+  flex:1;
+  padding:8px;
+  border:none;
+}
+
+.email-box button{
+  background:#ff2e2e;
+  border:none;
+  padding:8px 14px;
+  cursor:pointer;
+}
+
+.socials{
+  margin-top:10px;
+  font-size:20px;
+}
+
+.socials a{
+  color:#fff;
+  text-decoration:none;
+  margin-right:8px;
+}
+
+.footer-bottom{
+  text-align:center;
+  padding-top:15px;
+  margin-top:20px;
+  border-top:1px solid #222;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="top-bar">
+  <div>📧 support@vantiq.com</div>
+  <div>10:00AM – 5:00PM | +91 1800 890 6602</div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="logo-header">
+  <img src="C:\Users\ADMIN\Desktop\Website\image\logo1.jpg" alt="VANTIQ Logo">
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <nav class="navbar" id="mobileMenu">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="services.html">SERVICES</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="C:\Users\ADMIN\Desktop\Website\image\video2.mp4" type="video/mp4">
+    <!-- Fallback image if video not supported -->
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>Our Services</h1>
+    <p>Creative • Reliable • Premium</p>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services">
+  <h2>What We Offer</h2>
+
+  <div class="service-grid">
+    <div class="service-card">
+      <span>🎨</span>
+      <h3>Custom Design</h3>
+      <p>Exclusive designs crafted for premium mobile accessories.</p>
+    </div>
+
+    <div class="service-card">
+      <span>📱</span>
+      <h3>Product Customization</h3>
+      <p>Personalized phone covers made just for you.</p>
+    </div>
+
+    <div class="service-card">
+      <span>🚚</span>
+      <h3>Fast Delivery</h3>
+      <p>Quick and reliable delivery across India.</p>
+    </div>
+
+    <div class="service-card">
+      <span>🛠️</span>
+      <h3>Customer Support</h3>
+      <p>Friendly support to help you anytime.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="features">
+    <div class="feature"><span>💎</span><p>PREMIUM<br>QUALITY</p></div>
+    <div class="feature"><span>🚚</span><p>FAST<br>SHIPPING</p></div>
+    <div class="feature"><span>🔒</span><p>100% SECURE<br>CHECKOUT</p></div>
+    <div class="feature"><span>✔</span><p>1M+<br>CUSTOMERS</p></div>
+  </section>
+
+<!-- ================= FOOTER (ORIGINAL) ================= -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h4>COMPANY</h4>
+      <button onclick="goPage('about.html')">About Us</button>
+      <button onclick="goPage('contact.html')">Contact Us</button>
+      <button onclick="goPage('ourblogs.html')">Our Blogs</button>
+      <button onclick="goPage('Privacypolicy.html')">Privacy Policy</button>
+      <button onclick="goPage('termsofservice.html')">Terms of Service</button>
+    </div>
+
+    <div class="footer-col">
+      <h4>NEED HELP?</h4>
+      <button onclick="goPage('login.html')">Track Order</button>
+      <button onclick="goPage('faqs.html')">FAQ's</button>
+      <button onclick="goPage('login.html')">Refund & Exchange</button>
+      <button onclick="goPage('login.html')">Cancellation</button>
+      <button onclick="goPage('login.html')">Shipping Information</button>
+    </div>
+
+    <div class="footer-col">
+      <h4>LATEST MODELS</h4>
+      <button>iPhone 17 Pro Max</button>
+      <button>iPhone 17 Pro</button>
+      <button>iPhone 17</button>
+      <button>OnePlus 15</button>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h4>SIGN UP AND SAVE</h4>
+      <p>Subscribe for offers & giveaways.</p>
+      <div class="email-box">
+        <input type="email" placeholder="Enter your email">
+        <button onclick="subscribe()">✉</button>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/deepakvarm_/" target="_blank">📸</a>
+        <a href="https://www.facebook.com/DeepakVerma/" target="_blank">📘</a>
+        <a href="https://www.youtube.com/@SRKBHOJPURI" target="_blank">▶</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    2025 | A VANTIQ Creation. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleMenu(){
+  const menu=document.getElementById("mobileMenu");
+  menu.style.display = menu.style.display==="flex" ? "none" : "flex";
+}
+
+function goPage(page){
+  window.location.href = page;
+}
+
+function subscribe(){
+  alert("Subscribed successfully 🎉");
+}
+</script>
+
+</body>
+</html>

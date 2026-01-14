@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VANTIQ Creation</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= BASIC ================= */
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#000}
+
+/* ================= TOP BAR ================= */
+.top-bar{
+  background:#fc0303;color:#fff;
+  display:flex;justify-content:space-between;
+  padding:8px 40px;font-size:10px;
+}
+
+/* ================= HEADER ================= */
+.logo-header{
+  text-align:center;padding:20px;
+  background:#000;position:relative;
+}
+.logo-header img{height:100px}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  display:flex;justify-content:center;
+  gap:30px;background:#000;padding:14px 0;
+}
+.navbar a{color:#fff;text-decoration:none;font-weight:600}
+.navbar a:hover{color:#ff2e2e}
+
+/* ================= MOBILE MENU ================= */
+.menu-toggle{
+  display:none;position:absolute;top:20px;right:20px;
+  font-size:28px;background:none;border:none;color:#fff;
+}
+@media(max-width:768px){
+  .navbar{
+    display:none;
+    flex-direction:column;
+    background:#000;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    z-index:10001;
+  }
+  .menu-toggle{display:block}
+}
+
+/* ================= CART ================= */
+.cart-icon{
+  position:absolute;top:30px;right:80px;
+  font-size:22px;color:#fff
+}
+.cart-icon span{
+  background:red;color:#fff;font-size:12px;
+  padding:2px 6px;border-radius:50%;
+  position:absolute;top:-10px;right:-10px
+}
+@media (max-width: 768px) {
+
+  .cart-icon{
+    left:20px;
+    right:auto;
+    top:28px;
+    font-size:22px;
+  }
+
+  .menu-toggle{
+    right:20px;
+    top:28px;
+  }
+}
+
+
+/* ================= SEARCH BAR ================= */
+.search-bar-container{
+  display:flex;justify-content:center;align-items:center;
+  gap:10px;margin:20px;flex-wrap:wrap
+}
+.search-box{display:flex;max-width:500px;flex:1}
+.search-box input{flex:1;padding:8px}
+.search-box button{
+  padding:8px 12px;background:#ff2e2e;border:none;color:#fff
+}
+.filter-btn,.login-btn{
+  padding:8px 14px;background:#111;color:#fff;border:none
+}
+.filter-btn:hover,.login-btn:hover{background:#ff2e2e}
+
+/* ================= PRODUCTS ================= */
+
+/* ================= HERO ================= 
+.container{position:relative;height:80vh;overflow:hidden}
+.hero-video{width:100%;height:100%;object-fit:cover}
+.container::after{
+  content:"";position:absolute;inset:0;
+  background:rgba(0,0,0,.6)
+}
+.hero-content{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  color:#fff;text-align:center;z-index:2
+}                                                   */
+
+/* ================= FOOTER ================= */
+.footer{
+  background:#000;
+  color:#ccc;
+  padding:40px 20px 10px;
+}
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:30px;
+}
+.footer-col h4{
+  color:#fff;
+  margin-bottom:15px;
+}
+.footer-col button{
+  display:block;
+  background:none;
+  border:none;
+  color:#ccc;
+  margin:6px 0;
+  cursor:pointer;
+  text-align:left;
+}
+.footer-col button:hover{
+  color:#ff2e2e;
+}
+.email-box{
+  display:flex;
+  margin-top:10px;
+}
+.email-box input{
+  flex:1;
+  padding:8px;
+  border:none;
+}
+.email-box button{
+  background:#ff2e2e;
+  border:none;
+  padding:8px 14px;
+  cursor:pointer;
+}
+.socials{
+  margin-top:10px;
+  font-size:20px;
+  display:flex;gap:12px;
+}
+.socials a{
+  width:36px;height:36px;display:flex;
+  align-items:center;justify-content:center;
+  background:#111;color:#fff;border-radius:50%;
+  transition:.3s
+}
+.socials a:hover{background:#ff2e2e;transform:scale(1.1)}
+.footer-bottom{
+  text-align:center;
+  padding-top:15px;
+  margin-top:20px;
+  border-top:1px solid #222;
+  font-size:14px;
+}
+
+/* ================= FILTER ================= */
+.filter-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);
+  display:none;z-index:9998;animation:fade .3s
+}
+.filter-overlay.show{display:block}
+.filter-panel{
+  position:fixed;top:0;left:-320px;
+  width:300px;height:100%;
+  background:#111;color:#fff;
+  padding:10px;transition:.3s;z-index:9999
+}
+.filter-panel.open{left:0}
+.filter-header{
+  display:flex;justify-content:space-between;align-items:center
+}
+.filter-section{margin:14px 0}
+.filter-section h4{color:#ff2e2e}
+.apply-filter{
+  width:100%;padding:8px;
+  background:#ff2e2e;border:none;
+  color:#fff;border-radius:6px;margin-top:8px
+}
+.apply-filter[style]{background:#444}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fade{
+  from{opacity:0}to{opacity:1}
+}
+
+@media (max-width: 768px) {
+
+  .search-bar-container{
+    display:flex;
+    flex-wrap:nowrap;
+    gap:6px;
+    margin:10px;
+  }
+
+  .filter-btn{
+    flex:0 0 auto;
+    padding:8px 10px;
+    font-size:14px;
+  }
+
+  .search-box{
+    flex:1;
+  }
+
+  .search-box input{
+    width:100%;
+  }
+
+  .login-btn{
+    flex:0 0 auto;
+    padding:8px 12px;
+    font-size:14px;
+  }
+}
+
+
+@media (max-width:768px){
+
+  .logo-header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 50px;
+  }
+
+  .logo-header img{
+    height:60px;
+  }
+
+  .cart-icon{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+
+  .menu-toggle{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== NEON CHECKBOX ===== */
+.filter-section label{
+  display:flex;
+  align-items:center;
+  gap:2px;
+  margin:3px 0;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.filter-section input[type="checkbox"]{
+  appearance:none;
+  width:18px;
+  height:18px;
+  border:2px solid #ff2e2e;
+  border-radius:4px;
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.filter-section input[type="checkbox"]:checked{
+  background:#ff2e2e;
+  box-shadow:0 0 10px #ff2e2e,0 0 20px rgba(255,46,46,.6);
+}
+
+.filter-section input[type="checkbox"]:checked::after{
+  content:"✓";
+  position:absolute;
+  color:#000;
+  font-size:13px;
+  left:3px;
+  top:-1px;
+}
+
+/* ===== PRICE BUBBLE ===== */
+.price-wrap{
+  position:relative;
+  padding-top:14px;
+}
+
+.price-wrap input[type="range"]{
+  width:100%;
+}
+
+.price-bubble{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff2e2e;
+  color:#000;
+  padding:3px 8px;
+  font-size:12px;
+  border-radius:6px;
+  box-shadow:0 0 15px rgba(255,46,46,.8);
+  transition:left .15s ease;
+  pointer-events:none;
+}
+
+/* ===== FILTER COUNT BADGE ===== */
+.filter-badge{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  background:#ff2e2e;
+  color:#000;
+  font-size:11px;
+  padding:2px 6px;
+  border-radius:50%;
+  display:none;
+  box-shadow:0 0 12px rgba(255,46,46,.9);
+}
+
+
+
+/* ===== PRICE PRESETS ===== */
+.price-presets{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.price-presets button{
+  padding:6px 10px;
+  font-size:12px;
+  background:#111;
+  color:#fff;
+  border:1px solid #ff2e2e;
+  border-radius:20px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.price-presets button:hover{
+  background:#ff2e2e;
+  color:#000;
+}
+
+.price-presets button.active{
+  background:#ff2e2e;
+  color:#000;
+  box-shadow:0 0 12px rgba(255,46,46,.9);
+}
+
+/* ================= PRODUCT CARD ================= */
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #111;
+  color: #fff;
+  border: 1px solid #ff2e2e;
+  border-radius: 12px;
+  padding: 12px;
+  width: 220px;
+  height: 360px;   /* 🔥 Increased height like Flipkart */
+  transition: transform .2s, box-shadow .2s;
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;        /* 🔥 Increased image height */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+.product-info {
+  flex: 1;
+}
+
+.product-card h3 {
+  font-size: 15px;
+  margin: 8px 0 4px;
+}
+
+.product-card p {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.3;
+  margin-top: 4px;
+}
+
+
+.product-card strong {
+  color: #ff2e2e;
+  font-size: 16px;
+}
+
+
+.add-cart-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #ff9f00;   /* Flipkart orange */
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.add-cart-btn:hover {
+  background: #fb641b;
+  transform: scale(1.03);
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .products-container {
+    grid-template-columns: repeat(2, 1fr); /* 🔥 only mobile = 2 */
+    gap: 12px;
+  }
+
+  .product-card {
+    width: 100%;
+    height: 380px;
+    padding: 8px;
+  }
+
+  .product-card img {
+    height: 250px; /* bigger image for mobile */
+  }
+
+  .product-card h3 {
+    font-size: 14px;
+  }
+
+  .product-card p {
+    font-size: 11px;
+  }
+}
+
+
+/* ===== AMAZON STYLE WISHLIST ===== */
+.wishlist-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  transition: .2s;
+  z-index: 5;
+}
+
+.wishlist-btn.active {
+  color: #e60023;           /* Amazon red */
+  transform: scale(1.1);
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.mrp {
+  text-decoration: line-through;   /* ✅ slash */
+  color: #999;
+  font-size: 13px;
+}
+
+.discount {
+  color: #26a541;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <div>📧support@vantiq.com</div>
+  <div>10AM – 5PM | +91 1800 890 6602</div>
+</div>
+
+<header class="logo-header">
+  <img src="logo1.jpg" alt="VANTIQ Logo">
+  <div class="cart-icon" onclick="location.href='cart.html'">🛒<span id="cartCount">0</span></div>
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <nav class="navbar" id="mobileMenu">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="services.html">SERVICES</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
+</header>
+
+<div class="search-bar-container">
+  <button class="filter-btn" onclick="toggleProfile()">
+  <i class="fa-solid fa-user"></i> Profile
+</button>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search products..." onkeyup="searchProducts()">
+    <button>🔍</button>
+  </div>
+
+  <button class="filter-btn" onclick="toggleFilter()" style="position:relative">
+  <i class="fa-solid fa-filter"></i> Filter
+  <span class="filter-badge" id="filterCount">0</span>
+</button>
+
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="products-container" id="productsContainer" ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- FILTER PANEL -->
+<div class="filter-panel" id="filterPanel">
+  <div class="filter-header">
+    <h3>Filters</h3>
+    <button onclick="toggleFilter()">✖</button>
+  </div>
+
+  <!-- CATEGORY -->
+  <div class="filter-section">
+    <h4>Category</h4>
+    <label><input type="checkbox" class="filter-category" value="case"> Mobile Case</label><br>
+    <label><input type="checkbox" class="filter-category" value="charger"> Charger</label><br>
+    <label><input type="checkbox" class="filter-category" value="cable"> Cable</label>
+  </div>
+
+  <!-- BRAND -->
+  <div class="filter-section">
+    <h4>Brand</h4>
+    <label><input type="checkbox" class="filter-brand" value="apple"> Apple</label><br>
+    <label><input type="checkbox" class="filter-brand" value="samsung"> Samsung</label><br>
+    <label><input type="checkbox" class="filter-brand" value="oneplus"> OnePlus</label>
+  </div>
+
+  <!-- PRICE -->
+  <div class="filter-section">
+  <h4>Price</h4>
+
+  <!-- PRICE PRESETS -->
+  <div class="price-presets">
+    <button type="button" data-price="99">Under ₹99</button>
+    <button type="button" data-price="199">Under ₹199</button>
+    <button type="button" data-price="499">Under ₹499</button>
+  </div>
+
+  <!-- SLIDER -->
+  <div class="price-wrap">
+    <input type="range" id="priceRange" min="0" max="5000" step="100" value="5000">
+    <div class="price-bubble" id="priceBubble">₹5000</div>
+  </div>
+</div>
+
+
+  <button class="apply-filter" onclick="applyAndClose()">Apply Filters</button>
+<button class="apply-filter" style="background:#444" onclick="clearFilters()">Clear All</button>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h4>COMPANY</h4>
+      <button onclick="goPage('about.html')">About Us</button>
+      <button onclick="goPage('contact.html')">Contact Us</button>
+      <button onclick="goPage('info.html')">Our Blogs</button>
+      <button onclick="goPage('info.html')">Privacy Policy</button>
+      <button onclick="goPage('info.html')">Terms of Service</button>
+    </div>
+
+    <div class="footer-col">
+      <h4>NEED HELP?</h4>
+      <button onclick="goPage('trackorder.html')">Track Order</button>
+      <button onclick="goPage('info.html')">FAQ's</button>
+      <button onclick="goPage('contact.html')">Refund & Exchange</button>
+      <button onclick="goPage('contect.html')">Cancellation</button>
+      <button onclick="goPage('trackorder.html')">Shipping Information</button>
+    </div>
+
+    <div class="footer-col">
+      <h4>LATEST MODELS</h4>
+      <button onclick="goPage('')">iPhone 17 Pro Max</button>
+      <button onclick="goPage('')">iPhone 17 Pro</button>
+      <button onclick="goPage('')">iPhone 17</button>
+      <button onclick="goPage('')">OnePlus 15</button>
+    </div>
+
+    <div class="footer-col newsletter">
+      <h4>SIGN UP AND SAVE</h4>
+      <p>Subscribe for offers & giveaways.</p>
+      <div class="email-box">
+        <input type="email" placeholder="Enter your email">
+        <button onclick="subscribe()">✉</button>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/vantiq_creations/" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com/DeepakVerma/" target="_blank">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://www.youtube.com/@SRKBHOJPURI" target="_blank">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    2025 | A VANTIQ Creation. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- OVERLAY -->
+<div class="profile-overlay" id="profileOverlay" onclick="toggleProfile()"></div>
+<div class="filter-panel" id="filterPanel">
+
+<!-- FILTER PANEL -->
+<!-- PROFILE PANEL -->
+<div class="filter-panel" id="profilePanel">
+  <div class="filter-header">
+    <h3>My Profile</h3>
+    <button onclick="toggleProfile()">✖</button>
+  </div>
+
+  <div style="text-align:center;margin:20px 0">
+    <img src="C:\Users\ADMIN\Desktop\Websitef\backend\assets\logo.png"
+     alt="VANTIQ Logo"
+     style="
+       width:90px;
+       height:90px;
+       border-radius:50%;
+       object-fit:cover;
+       border:2px solid #ff2e2e;
+       background:#000;
+       box-shadow:0 0 12px rgba(255,46,46,.6);
+     ">
+
+    <h4 id="profileName" style="margin:10px 0 5px">Guest User</h4>
+<p id="profileEmail" style="font-size:13px;opacity:.7">
+  guest@vantiq.com
+</p>
+
+  </div>
+
+  <div class="filter-section">
+    <button class="apply-filter" onclick="goPage('profile.html')">Edit Profile</button>
+    <button class="apply-filter" onclick="goPage('myorders.html')">My Orders</button>
+    <button class="apply-filter" onclick="goPage('wishlist.html')">Wishlist</button>
+    <button class="apply-filter" onclick="goPage('trackorder.html')">Track Orders</button>
+    <button class="apply-filter" style="background:#444" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+
+<script>
+// ================= MOBILE MENU TOGGLE =================
+
+function toggleMenu(){
+  const m=document.getElementById("mobileMenu");
+  m.style.display=m.style.display==="flex"?"none":"flex";
+}
+
+function updateCartCount(){
+  document.getElementById("cartCount").innerText="0";
+}
+
+function searchProducts(){
+  const v=document.querySelector(".search-box input").value.toLowerCase();
+  document.querySelectorAll(".product-card").forEach(c=>{
+    c.style.display = c.dataset.name.toLowerCase().includes(v) ? "flex" : "none";
+  });
+}
+
+function goPage(url){window.location.href=url;}
+function subscribe(){alert('Subscribed!');}
+</script>
+
+<script>
+function toggleProfile(){
+  const panel = document.getElementById("profilePanel");
+  const overlay = document.getElementById("profileOverlay");
+  panel.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
+
+<!-- ================= FILTER PANEL js ================= -->
+<script>
+function toggleFilter(){
+  const panel = document.getElementById("filterPanel");
+  const overlay = document.getElementById("profileOverlay");
+  panel.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
+
+<!-- ================= FILTER FUNCTIONALITY js ================= -->
+
+<script>
+const priceRange = document.getElementById("priceRange");
+const priceBubble = document.getElementById("priceBubble");
+const filterCount = document.getElementById("filterCount");
+
+function updatePriceBubble(){
+  const val = priceRange.value;
+  const max = priceRange.max;
+  const percent = val / max * 100;
+
+  priceBubble.innerText = "₹" + val;
+  priceBubble.style.left = percent + "%";
+
+  
+}
+
+priceRange.addEventListener("input", updatePriceBubble);
+
+// Auto apply on checkbox change
+document.querySelectorAll(
+  ".filter-category, .filter-brand"
+).forEach(el => {});
+
+function applyFilters(){
+  const categories = [...document.querySelectorAll(".filter-category:checked")];
+  const brands = [...document.querySelectorAll(".filter-brand:checked")];
+  const maxPrice = Number(priceRange.value);
+
+  let count = categories.length + brands.length;
+  if (maxPrice < priceRange.max) count++;
+
+  filterCount.innerText = count;
+  filterCount.style.display = count ? "block" : "none";
+
+  document.querySelectorAll(".product-card").forEach(card => {
+    const okCategory = !categories.length || categories.some(c => c.value === card.dataset.category);
+    const okBrand = !brands.length || brands.some(b => b.value === card.dataset.brand);
+    const okPrice = Number(card.dataset.price) <= maxPrice;
+
+    card.style.display = okCategory && okBrand && okPrice ? "flex" : "none";
+  });
+}
+
+// CLEAR ALL
+function clearFilters(){
+  document.querySelectorAll(".filter-category, .filter-brand")
+    .forEach(i => i.checked = false);
+
+  // clear price presets
+  document.querySelectorAll(".price-presets button")
+    .forEach(b => b.classList.remove("active"));
+
+  priceRange.value = priceRange.max;
+  updatePriceBubble();
+}
+
+</script>
+
+<script>
+function applyAndClose(){
+  applyFilters();          // apply selected filters
+  toggleFilter();          // close filter panel
+}
+</script>
+
+<script>
+/* ===== PRICE PRESETS (UNDER 99 / 199) ===== */
+const presets = document.querySelectorAll(".price-presets button");
+
+presets.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    // remove active from all
+    presets.forEach(b=>b.classList.remove("active"));
+
+    // activate clicked
+    btn.classList.add("active");
+
+    // set slider value
+    priceRange.value = btn.dataset.price;
+    updatePriceBubble();
+  });
+});
+
+// When slider moves → remove preset highlight
+priceRange.addEventListener("input", ()=>{
+  presets.forEach(b=>b.classList.remove("active"));
+});
+</script>
+
+<script>
+let wishlistIds = [];
+
+// Load wishlist product IDs
+async function loadWishlistIds(){
+  const token = localStorage.getItem("token");
+  if(!token) return;
+
+  try{
+    const res = await fetch("http://localhost:5000/api/wishlist",{
+      headers:{ Authorization:"Bearer " + token }
+    });
+    const data = await res.json();
+    wishlistIds = data.items.map(p => p._id);
+  }catch(err){
+    console.error("Wishlist load error", err);
+  }
+}
+
+// Toggle wishlist (heart click)
+async function toggleWishlist(productId, btn){
+  const token = localStorage.getItem("token");
+
+  if(!token){
+    alert("Please login first");
+    location.href = "login.html";
+    return;
+  }
+
+  const res = await fetch("http://localhost:5000/api/wishlist/toggle",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:"Bearer " + token
+    },
+    body: JSON.stringify({ productId })
+  });
+
+  const data = await res.json();
+
+  if(data.active){
+    btn.classList.add("active");
+  }else{
+    btn.classList.remove("active");
+  }
+}
+</script>
+
+<script>
+async function loadUserProfile() {
+  const token = localStorage.getItem("token");
+  const nameEl = document.getElementById("profileName");
+  const emailEl = document.getElementById("profileEmail");
+
+  if (!token) {
+    nameEl.innerText = "Guest User";
+    emailEl.innerText = "guest@vantiq.com";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/user/me", {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (!res.ok) throw new Error("Not logged in");
+
+    const data = await res.json();
+    nameEl.innerText =
+  data.name ||
+  data.fullname ||
+  data.user?.name ||
+  "User";
+
+    emailEl.innerText = data.email || "user@vantiq.com";
+
+  } catch (err) {
+    console.error(err);
+    nameEl.innerText = "Guest User";
+    emailEl.innerText = "guest@vantiq.com";
+  }
+}
+
+</script>
+
+
+// ================= LOAD PRODUCTS FROM BACKEND =================
+
+<script>
+
+// Load products from backend
+async function loadProducts(){
+  try{
+    const res = await fetch('http://localhost:5000/api/product'); // your backend route
+    const products = await res.json();
+    const container = document.getElementById('productsContainer');
+    container.innerHTML = '';
+
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.dataset.name = p.name;
+      card.dataset.category = p.category || '';
+      card.dataset.brand = p.brand || '';
+      card.dataset.price = p.price;
+
+      card.innerHTML = `
+        <img src="http://localhost:5000/uploads/${p.images?.[0] || ''}"
+        alt="${p.name}"
+        onclick="openProduct('${p._id}')"
+        style="cursor:pointer"/>
+
+        <div class="wishlist-btn ${wishlistIds.includes(p._id) ? 'active' : ''}"
+     onclick="toggleWishlist('${p._id}', this)">❤</div>
+        <div class="product-info">
+          <h3>${p.name}</h3>
+          <div class="price-row">
+            <strong>₹${p.price}</strong>
+            ${p.original_price ? `<span class="mrp">₹${p.original_price}</span>` : ""}
+            ${p.original_price ? `<span class="discount">${Math.round(((p.original_price-p.price)/p.original_price)*100)}% off</span>` : ""}
+          </div>
+        <button class="add-cart-btn" onclick="addToCart('${p._id}')">ADD TO CART</button>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch(err){
+    console.error('Error loading products:', err);
+  }
+}
+
+// Add to cart (backend)
+function addToCart(productId){
+  const token = localStorage.getItem("token");
+
+  if(!token){
+    alert("Please login first");
+    location.href="login.html";
+    return;
+  }
+
+  fetch("http://localhost:5000/api/cart/add",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + token
+    },
+    body: JSON.stringify({ productId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message || "Product added to cart ✅");
+    updateCartCount(); // 🔥 THIS WAS NEVER FIRING
+  })
+  .catch(err=>{
+    console.error(err);
+    alert("Server error");
+  });
+}
+
+// Cart count badge
+async function updateCartCount(){
+  const token = localStorage.getItem("token");
+  if(!token) return;
+
+  const res = await fetch("http://localhost:5000/api/cart",{
+    headers:{Authorization:"Bearer "+token}
+  });
+  const cart = await res.json();
+  const count = cart.items?.reduce((sum,i)=>sum+i.quantity,0) || 0;
+  document.getElementById("cartCount").innerText = count;
+}
+
+
+// On page load
+window.onload = async () => {
+  await loadWishlistIds();
+  loadProducts();
+  updateCartCount();
+  loadUserProfile();   // 🔥 THIS WAS MISSING
+};
+
+function logout(){
+  localStorage.removeItem("token");
+  location.href = "login.html";
+}
+
+
+
+// Open product details
+function openProduct(id){
+  window.location.href = "product-details.html?id=" + id;
+}
+
+</script>
+
+
+
+</body>
+</html>

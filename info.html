@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANTIQ Info Center</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f0f0f;
+  color: #eee;
+  line-height: 1.6;
+}
+
+header {
+  background: #111;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff2e2e;
+}
+
+nav.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #111;
+  border-bottom: 2px solid #ff2e2e;
+}
+
+nav.tabs button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+nav.tabs button:hover, nav.tabs button.active {
+  background: #ff2e2e;
+  color: #000;
+  border-radius: 6px 6px 0 0;
+}
+
+.content-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+section.content {
+  display: none;
+}
+
+section.content.active {
+  display: block;
+}
+
+/* Headings */
+h2 {
+  color: #ff2e2e;
+  margin-bottom: 10px;
+}
+
+h3 {
+  color: #fff;
+  margin: 10px 0 5px;
+}
+
+/* Links */
+a {
+  color: #ff2e2e;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+/* FAQ Card Style */
+.faq-item {
+  background: #1a1a1a;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 4px solid #ff2e2e;
+  border-radius: 6px;
+}
+
+/* Blog Cards */
+.blog-item {
+  background: #1a1a1a;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border-left: 4px solid #ff2e2e;
+}
+
+/* Footer */
+footer {
+  background: #111;
+  color: #999;
+  padding: 20px;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+@media(max-width:768px){
+  nav.tabs {
+    flex-direction: column;
+  }
+  nav.tabs button {
+    margin-bottom: 5px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>VANTIQ Info Center</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="faq">FAQ's</button>
+  <button class="tab" data-tab="blogs">Our Blogs</button>
+  <button class="tab" data-tab="privacy">Privacy Policy</button>
+  <button class="tab" data-tab="terms">Terms of Service</button>
+</nav>
+
+<div class="content-container">
+  <!-- FAQ -->
+  <section id="faq" class="content active">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Q1: How do I place an order?</h3>
+      <p>A: Browse our products, add them to your cart, and checkout using your account or as a guest.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Q2: Can I track my order?</h3>
+      <p>A: Yes! Go to the "Track Orders" page and enter your order ID or registered email.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Q3: How can I cancel or return an order?</h3>
+      <p>A: Check our <a href="#terms">Terms of Service</a> for cancellation and refund policies.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Q4: Do you ship internationally?</h3>
+      <p>A: Currently we ship only within India.</p>
+    </div>
+  </section>
+
+  <!-- Blogs -->
+  <section id="blogs" class="content">
+    <h2>Our Blogs</h2>
+    <div class="blog-item">
+      <h3>Latest Mobile Cases of 2026</h3>
+      <p>Discover the newest stylish and protective mobile cases released this year. Stay trendy while keeping your phone safe.</p>
+    </div>
+    <div class="blog-item">
+      <h3>Tips to Maintain Your Phone Battery</h3>
+      <p>Learn how to extend your battery life with simple habits and settings adjustments.</p>
+    </div>
+    <div class="blog-item">
+      <h3>Top 5 Accessories You Need Right Now</h3>
+      <p>Explore essential gadgets and accessories that enhance your mobile experience.</p>
+    </div>
+  </section>
+
+  <!-- Privacy Policy -->
+  <section id="privacy" class="content">
+    <h2>Privacy Policy</h2>
+    <p>We respect your privacy. Any data collected on our site is used only to provide services and improve your experience.</p>
+    <ul>
+      <li>We never share personal information with third parties.</li>
+      <li>Emails are used for newsletters and order notifications only.</li>
+      <li>We use cookies to enhance website functionality.</li>
+      <li>You can request deletion of your data at any time by contacting us.</li>
+    </ul>
+  </section>
+
+  <!-- Terms of Service -->
+  <section id="terms" class="content">
+    <h2>Terms of Service</h2>
+    <p>By using our website, you agree to the following:</p>
+    <ul>
+      <li>You must be 18 years or older to place orders.</li>
+      <li>All product descriptions are as accurate as possible, but slight variations may occur.</li>
+      <li>Orders are subject to availability.</li>
+      <li>Refunds and cancellations follow our policies described here.</li>
+      <li>We may modify terms at any time; users should review periodically.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  2026 | A VANTIQ Creation. All Rights Reserved.
+</footer>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.content');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | VANTIQ</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+header {
+  background: #000;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+}
+header img { height: 70px; }
+.cart-icon {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  cursor: pointer;
+}
+.cart-icon span {
+  background: red;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 12px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+/* PROFILE CONTAINER */
+.profile-container {
+  max-width: 400px;
+  margin: 40px auto;
+  background: #111;
+  border: 1px solid #ff2e2e;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.profile-container img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.profile-container p {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.profile-container label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.profile-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.profile-container button {
+  width: 100%;
+  padding: 12px;
+  background: #ff2e2e;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.profile-container button:hover {
+  background: #fb641b;
+}
+
+.logout-btn {
+  background: #444;
+}
+
+.logout-btn:hover {
+  background: #666;
+}
+
+.empty-msg {
+  text-align: center;
+  margin-top: 50px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo1.jpg" alt="VANTIQ Logo">
+  <div class="cart-icon" onclick="location.href='cart.html'">🛒<span id="cartCount">0</span></div>
+</header>
+
+<div class="profile-container" id="profileContainer">
+  <img src="logo1.jpg" id="profileImg" alt="Profile Picture">
+  <h2 id="profileName">Guest User</h2>
+  <p id="profileEmail">guest@vantiq.com</p>
+
+  <div id="guestMessage" class="empty-msg" style="display:none">
+    Please <a href="login.html" style="color:#ff2e2e;">login</a> to view your profile.
+  </div>
+
+  <div id="profileForm" style="display:none">
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Your name">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Your email" disabled>
+
+    <label for="password">New Password</label>
+    <input type="password" id="password" placeholder="Change password">
+
+    <button onclick="updateProfile()">Save Changes</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<script>
+// Cart count placeholder
+function updateCartCount(){
+  const token = localStorage.getItem("token");
+  if(!token) return;
+  fetch("http://localhost:5000/api/cart",{
+    headers:{Authorization:"Bearer " + token}
+  })
+  .then(res=>res.json())
+  .then(cart=>{
+    const count = cart.items?.reduce((s,i)=>s+i.quantity,0) || 0;
+    document.getElementById("cartCount").innerText = count;
+  });
+}
+
+// Load user profile
+async function loadProfile(){
+  const token = localStorage.getItem("token");
+  const nameEl = document.getElementById("profileName");
+  const emailEl = document.getElementById("profileEmail");
+  const profileImg = document.getElementById("profileImg");
+  const profileForm = document.getElementById("profileForm");
+  const guestMsg = document.getElementById("guestMessage");
+
+  if(!token){
+    guestMsg.style.display="block";
+    profileForm.style.display="none";
+    nameEl.innerText="Guest User";
+    emailEl.innerText="guest@vantiq.com";
+    return;
+  }
+
+  try{
+    const res = await fetch("http://localhost:5000/api/user/me",{
+      headers:{Authorization:"Bearer " + token}
+    });
+    if(!res.ok) throw new Error("User not logged in");
+
+    const data = await res.json();
+    nameEl.innerText = data.name;
+    emailEl.innerText = data.email;
+    profileForm.style.display="block";
+    guestMsg.style.display="none";
+
+    document.getElementById("name").value = data.name;
+    document.getElementById("email").value = data.email;
+    if(data.avatar) profileImg.src = "http://localhost:5000/uploads/"+data.avatar;
+
+  }catch(err){
+    console.error(err);
+    guestMsg.style.display="block";
+    profileForm.style.display="none";
+    nameEl.innerText="Guest User";
+    emailEl.innerText="guest@vantiq.com";
+  }
+}
+
+// Update profile
+async function updateProfile(){
+  const token = localStorage.getItem("token");
+  if(!token) return alert("Please login first");
+
+  const name = document.getElementById("name").value;
+  const password = document.getElementById("password").value;
+
+  try{
+    const res = await fetch("http://localhost:5000/api/user/update",{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:"Bearer " + token
+      },
+      body: JSON.stringify({name,password})
+    });
+
+    const data = await res.json();
+    if(res.ok){
+      alert("Profile updated successfully ✅");
+      document.getElementById("password").value="";
+      loadProfile();
+    } else {
+      alert(data.message || "Update failed ❌");
+    }
+  }catch(err){
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+// Logout
+function logout(){
+  localStorage.removeItem("token");
+  location.href="index.html";
+}
+
+// On page load
+window.onload = ()=>{
+  loadProfile();
+  updateCartCount();
+};
+</script>
+
+</body>
+</html>

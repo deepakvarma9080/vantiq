@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Login | Cover Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- CSS -->
+  <style>
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+/* Background */
+.bg-container{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:url("../media/bg-image.jpg") center/cover no-repeat;
+  overflow:hidden;
+}
+
+.bg-container video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.bg-container::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.75);
+}
+
+/* Center */
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Login Card */
+.login-card{
+  position:relative;
+  z-index:2;
+  width:960px;
+  height:540px;
+  display:flex;
+  border-radius:22px;
+  overflow:hidden;
+  background:rgba(15,15,15,.85);
+  backdrop-filter:blur(15px);
+  box-shadow:0 0 70px rgba(255,0,0,.5);
+}
+
+/* Left */
+.visual{
+  width:45%;
+  padding:60px;
+  background:url("../media/bg-image.jpg") center/cover;
+  position:relative;
+}
+
+.visual::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.75);
+}
+
+.visual h1,.visual p{
+  position:relative;
+  z-index:2;
+  color:#fff;
+}
+
+.visual h1{
+  font-size:50px;
+  letter-spacing:3px;
+}
+
+.visual p{
+  margin-top:10px;
+  color:#ddd;
+}
+
+/* Right */
+.login-box{
+  width:55%;
+  padding:60px;
+  color:#fff;
+}
+
+.login-box h2{
+  font-size:32px;
+  color:#ff2e2e;
+}
+
+.login-box span{
+  font-size:14px;
+  color:#aaa;
+}
+
+/* Inputs */
+.input-group{
+  display:flex;
+  align-items:center;
+  margin-top:25px;
+  background:#1b1b1b;
+  border-radius:8px;
+  border:1px solid #333;
+}
+
+.input-group i{
+  padding:14px;
+  color:#ff2e2e;
+}
+
+.input-group input{
+  flex:1;
+  background:none;
+  border:none;
+  outline:none;
+  color:#fff;
+  padding:14px;
+}
+
+/* Options */
+.options{
+  margin-top:15px;
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+.options a{
+  color:#ff2e2e;
+  text-decoration:none;
+}
+
+/* Button */
+button{
+  width:100%;
+  margin-top:30px;
+  padding:15px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(135deg,#ff2e2e,#a00000);
+  color:#fff;
+  cursor:pointer;
+}
+
+button:hover{
+  box-shadow:0 0 25px rgba(255,0,0,.8);
+}
+
+/* Signup */
+.signup{
+  margin-top:20px;
+  text-align:center;
+}
+
+.signup a{
+  color:#ff2e2e;
+  text-decoration:none;
+}
+
+
+/* ===============================
+   MOBILE RESPONSIVE FIX
+   =============================== */
+@media (max-width: 768px) {
+
+  body{
+    padding:15px;
+  }
+
+  .login-card{
+    width:100%;
+    height:auto;
+    flex-direction:column;
+    border-radius:16px;
+  }
+
+  /* Hide left visual on mobile */
+  .visual{
+    display:none;
+  }
+
+  .login-box{
+    width:100%;
+    padding:30px 20px;
+  }
+
+  .login-box h2{
+    font-size:24px;
+    text-align:center;
+  }
+
+  .login-box span{
+    display:block;
+    text-align:center;
+    margin-top:5px;
+  }
+
+  .input-group{
+    margin-top:18px;
+  }
+
+  button{
+    padding:14px;
+    font-size:16px;
+  }
+
+  .signup{
+    font-size:14px;
+  }
+}
+
+/* ===============================
+   VERY SMALL DEVICES
+   =============================== */
+@media (max-width: 400px) {
+
+  .login-box{
+    padding:25px 15px;
+  }
+
+  .login-box h2{
+    font-size:22px;
+  }
+}
+
+</style>
+  
+</head>
+<body>
+
+<!-- Video + Image Background -->
+<div class="bg-container">
+  <video autoplay muted loop playsinline>
+    <source src="C:\Users\ADMIN\Desktop\Website\image\video3.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="login-card">
+
+  <!-- Left Side -->
+  <div class="visual">
+    <h1>SUPER<br>COVERS</h1>
+    <p>Premium superhero phone covers</p>
+  </div>
+
+  <!-- Right Side -->
+  <div class="login-box">
+    <h2>Welcome Back</h2>
+    <span>Secure login access</span>
+
+    <form id="loginForm">
+
+      <div class="input-group">
+        <i class="fa fa-envelope"></i>
+        <input type="email" id="email" required />
+      </div>
+
+      <div class="input-group">
+        <i class="fa fa-lock"></i>
+        <input type="password" id="password" required />
+        <i class="fa fa-eye toggle" onclick="togglePassword()"></i>
+      </div>
+
+      <div class="options">
+        <label>
+          <input type="checkbox" id="remember">
+          Remember me
+        </label>
+        <a href="forgot.html">Forgot password?</a>
+      </div>
+
+      <button type="submit">Login</button>
+
+      <p class="signup">
+        New user? <a href="signup.html">Create account</a>
+      </p>
+
+    </form>
+  </div>
+
+</div>
+
+<!-- ================= JS ================= -->
+ 
+<script>
+function togglePassword() {
+  const passInput = document.getElementById("password");
+  passInput.type = passInput.type === "password" ? "text" : "password";
+}
+
+document.getElementById("loginForm").addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    const response = await fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.message || "Invalid email or password");
+      return;
+    }
+
+    // ✅ SAVE TOKEN & USER
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    alert("Login successful");
+
+    // ✅ ROLE-BASED REDIRECT (FIXED)
+    if (data.user.isAdmin === true) {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "product.html";
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+});
+</script>
+
+
+</body>
+</html>

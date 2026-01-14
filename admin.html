@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard | VANTIQ Cover Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+body{background:#f4f6f9}
+
+/* HEADER */
+header{
+  background:#000;color:#fff;padding:15px 20px;
+  display:flex;justify-content:space-between;align-items:center
+}
+header button{
+  background:red;color:#fff;border:none;
+  padding:8px 14px;border-radius:5px;cursor:pointer
+}
+
+/* LAYOUT */
+.wrapper{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  width:230px;background:#111;color:#fff;padding:20px
+}
+.sidebar h3{margin-bottom:15px}
+.sidebar a{
+  display:block;color:#ddd;padding:10px;
+  text-decoration:none;border-radius:5px;margin-bottom:6px
+}
+.sidebar a:hover{background:#333}
+
+/* CONTENT */
+.content{flex:1;padding:25px}
+.section{display:none}
+.section.active{display:block}
+
+/* FILTER BAR */
+.filter-bar{
+  display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap
+}
+.filter-bar input, .filter-bar select{
+  padding:8px;border:1px solid #ccc;border-radius:5px
+}
+
+/* FORM */
+form{
+  background:#fff;padding:20px;border-radius:8px;
+  max-width:650px
+}
+input,textarea,select{
+  width:100%;padding:10px;margin-bottom:10px;
+  border:1px solid #ccc;border-radius:5px
+}
+textarea{resize:vertical;min-height:80px}
+button.submit{
+  background:#000;color:#fff;padding:12px;
+  width:100%;border:none;border-radius:5px
+}
+
+/* TABLE */
+table{
+  width:100%;border-collapse:collapse;
+  background:#fff;margin-top:15px
+}
+th,td{
+  padding:12px;border-bottom:1px solid #ddd;text-align:left
+}
+th{background:#000;color:#fff}
+.action-btn{
+  border:none;padding:6px 10px;
+  border-radius:4px;cursor:pointer
+}
+.edit{background:#007bff;color:#fff}
+.delete{background:red;color:#fff}
+
+/* IMAGE PREVIEW */
+.preview{
+  display:flex;gap:10px;flex-wrap:wrap
+}
+.preview img{
+  width:70px;height:70px;
+  object-fit:cover;border:1px solid #ccc;
+  border-radius:5px
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>VANTIQ Admin Panel</h1>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<div class="wrapper">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>ADMIN MENU</h3>
+    <a onclick="showSection('products')">📦 Products</a>
+    <a onclick="showSection('addProduct')">➕ Add Product</a>
+    <a onclick="showSection('orders')">📑 Orders</a>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- PRODUCT LIST -->
+    <div class="section active" id="products">
+      <h2>All Products</h2>
+
+      <!-- SEARCH + CATEGORY FILTER -->
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Search name / phone model">
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="Cover">Cover</option>
+          <option value="Screen Protector">Screen Protector</option>
+          <option value="Charger">Charger</option>
+          <option value="Cable">Cable</option>
+          <option value="Earphones">Earphones</option>
+          <option value="Power Bank">Power Bank</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Phone Model</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productList"></tbody>
+      </table>
+    </div>
+
+    <!-- ADD PRODUCT -->
+    <div class="section" id="addProduct">
+      <h2>Add Product</h2>
+
+      <form id="addProductForm" enctype="multipart/form-data">
+        <input name="name" placeholder="Product Name" required>
+
+        <select name="category" required>
+          <option value="">Select Category</option>
+          <option value="Cover">Cover</option>
+          <option value="Screen Protector">Screen Protector</option>
+          <option value="Charger">Charger</option>
+          <option value="Cable">Cable</option>
+          <option value="Earphones">Earphones</option>
+          <option value="Power Bank">Power Bank</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+
+        <input name="brand" placeholder="Brand">
+        <input name="phone_model" placeholder="Phone Model">
+        <input name="price" placeholder="Selling Price" required>
+        <input name="original_price" placeholder="Original Price">
+        <input name="quantity" type="number" min="0" placeholder="Stock Quantity" required>
+        <textarea name="highlights" placeholder="Highlights (one per line)"></textarea>
+        <textarea name="description" placeholder="Product Description"></textarea>
+
+        <input type="file" name="images" multiple accept="image/*" onchange="previewImages(this)">
+        <div class="preview" id="imagePreview"></div>
+
+        <button class="submit">Add Product</button>
+      </form>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="section" id="orders">
+      <h2>Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Address</th>
+            <th>Products</th>
+            <th>Payment</th>
+            <th>Total</th>
+            <th>Status</th>
+      
+          </tr>
+        </thead>
+        <tbody id="orderList"></tbody>
+
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+if(!token) location.href="login.html";
+
+function logout(){
+  localStorage.removeItem("token");
+  location.href="login.html";
+}
+
+function showSection(id){
+  document.querySelectorAll(".section")
+    .forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* IMAGE PREVIEW */
+function previewImages(input){
+  const preview = document.getElementById("imagePreview");
+  preview.innerHTML="";
+  [...input.files].forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+let allProducts=[];
+
+/* LOAD PRODUCTS */
+async function loadProducts(){
+  const res = await fetch("http://localhost:5000/api/product");
+  allProducts = await res.json();
+  renderProducts(allProducts);
+}
+
+function renderProducts(products){
+  const list=document.getElementById("productList");
+  list.innerHTML="";
+  products.forEach(p=>{
+    list.innerHTML+=`
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>${p.phone_model||"-"}</td>
+        <td>₹${p.price}</td>
+<td style="color:${p.quantity > 0 ? 'green' : 'red'}">
+  ${p.quantity > 0 ? p.quantity : 'Out'}
+</td>
+        <td>
+          <button class="action-btn edit" onclick="editProduct('${p._id}')">Edit</button>
+          <button class="action-btn delete" onclick="deleteProduct('${p._id}')">Delete</button>
+        </td>
+      </tr>`;
+  });
+}
+
+
+function editProduct(productId){
+  // You can prefill the Add Product form to edit
+  const product = allProducts.find(p => p._id === productId);
+  if(!product) return alert("Product not found");
+
+  showSection("addProduct"); // switch to Add Product section
+  const form = document.getElementById("addProductForm");
+  form.name.value = product.name;
+  form.category.value = product.category;
+  form.brand.value = product.brand || "";
+  form.phone_model.value = product.phone_model || "";
+  form.price.value = product.price;
+  form.original_price.value = product.original_price || "";
+  form.quantity.value = product.quantity ?? 0;
+  form.highlights.value = product.highlights || "";
+  form.description.value = product.description || "";
+
+  // You can add a hidden input for _id to know it's editing
+  if(!form._id){
+    const idInput = document.createElement("input");
+    idInput.type = "hidden";
+    idInput.name = "_id";
+    form.appendChild(idInput);
+  }
+  form._id.value = productId;
+}
+
+async function deleteProduct(productId){
+  if(!confirm("Are you sure you want to delete this product?")) return;
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://localhost:5000/api/product/${productId}`,{
+    method: "DELETE",
+    headers: { Authorization: "Bearer "+token }
+  });
+  if(res.ok){
+    alert("Product deleted successfully");
+    loadProducts(); // reload product list
+  } else {
+    alert("Failed to delete product");
+  }
+}
+
+
+/* SEARCH + FILTER */
+document.getElementById("searchInput").oninput=filterProducts;
+document.getElementById("categoryFilter").onchange=filterProducts;
+
+function filterProducts(){
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  const cat=document.getElementById("categoryFilter").value;
+
+  const filtered=allProducts.filter(p=>{
+    const matchText =
+      p.name.toLowerCase().includes(q) ||
+      (p.phone_model||"").toLowerCase().includes(q);
+
+    const matchCat = !cat || p.category===cat;
+    return matchText && matchCat;
+  });
+
+  renderProducts(filtered);
+}
+
+/* ADD PRODUCT */
+document.getElementById("addProductForm").onsubmit = async e=>{
+  e.preventDefault();
+
+  const form = new FormData(e.target);
+  const token = localStorage.getItem("token");
+
+  let url = "http://localhost:5000/api/product";
+  let method = "POST";
+
+  if(form.get("_id")){ // editing
+    url += "/" + form.get("_id");
+    method = "PUT";
+  }
+
+  const res = await fetch(url,{
+    method: method,
+    headers:{
+      Authorization: "Bearer " + token
+    },
+    body: form
+  });
+
+  const data = await res.json();
+
+  if(!res.ok){
+    alert(data.message || "❌ Product not saved");
+    return;
+  }
+
+  alert("✅ Product saved successfully");
+  e.target.reset();
+  document.getElementById("imagePreview").innerHTML="";
+  loadProducts();
+};
+
+
+/* LOAD ORDERS */
+
+async function loadOrders(){
+  const res = await fetch("http://localhost:5000/api/orders/all");
+  const orders = await res.json();
+
+  const list = document.getElementById("orderList");
+  list.innerHTML = "";
+
+  orders.forEach(o => {
+    let productsHTML = "";
+
+    if(o.items && o.items.length > 0){
+      o.items.forEach(item => {
+        productsHTML += `<div style="font-size:13px">• ${item.name} × ${item.quantity || item.qty}</div>`;
+      });
+    } else {
+      productsHTML = "No products";
+    }
+
+    list.innerHTML += `
+      <tr>
+        <td>${o._id}</td>
+        <td>
+          <b>${o.name}</b><br>📞 ${o.phone}
+        </td>
+        <td style="max-width:250px;font-size:13px">${o.address}</td>
+        <td style="min-width:200px">${productsHTML}</td>
+        <td>${o.paymentMethod}</td>
+        <td>₹${o.totalAmount}</td>
+        <td>
+  <select onchange="updateStatus('${o._id}', this.value)">
+    <option ${o.status==="Pending"?"selected":""}>Pending</option>
+    <option ${o.status==="Shipped"?"selected":""}>Shipped</option>
+    <option ${o.status==="Delivered"?"selected":""}>Delivered</option>
+  </select>
+
+  <br><br>
+  <button class="action-btn edit"
+    onclick="downloadInvoice('${o._id}')">
+    📄 Invoice
+  </button>
+</td>
+
+        
+      </tr>
+    `;
+  });
+}
+
+
+/* ===== UPDATE ORDER STATUS (ADMIN) ===== */
+async function updateStatus(orderId, status) {
+  const res = await fetch(
+    `http://localhost:5000/api/orders/${orderId}/status`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ status })
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.message || "❌ Failed to update status");
+  } else {
+    console.log("✅ Status updated:", data.order.status);
+  }
+}
+
+
+
+
+function viewOrder(orderId){
+  fetch(`http://localhost:5000/api/orders/${orderId}`)
+    .then(res => res.json())
+    .then(order => {
+      let details = `Products in this order:\n\n`;
+      order.items.forEach(i => {
+        details += `${i.name} × ${i.qty || i.quantity}\n`;
+      });
+      alert(details);
+    });
+}
+
+
+function downloadInvoice(orderId){
+  window.open(
+    `http://localhost:5000/api/orders/${orderId}/invoice`,
+    "_blank"
+  );
+}
+
+
+/* LOAD DATA */
+loadProducts();
+loadOrders();
+</script>
+
+
+</body>
+</html>
+  

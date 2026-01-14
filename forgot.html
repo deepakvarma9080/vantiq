@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password | Cover Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI',sans-serif;
+    }
+
+    /* Background */
+    .bg-container{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      background:url("../media/bg-image.jpg") center/cover no-repeat;
+      overflow:hidden;
+    }
+
+    .bg-container video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .bg-container::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.75);
+    }
+
+    /* Center */
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    /* Card */
+    .card{
+      position:relative;
+      z-index:2;
+      width:960px;
+      height:540px;
+      display:flex;
+      border-radius:22px;
+      overflow:hidden;
+      background:rgba(15,15,15,.85);
+      backdrop-filter:blur(15px);
+      box-shadow:0 0 70px rgba(255,0,0,.5);
+    }
+
+    /* Left Visual */
+    .visual{
+      width:45%;
+      padding:60px;
+      background:url("../media/bg-image.jpg") center/cover;
+      position:relative;
+    }
+
+    .visual::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.75);
+    }
+
+    .visual h1,.visual p{
+      position:relative;
+      z-index:2;
+      color:#fff;
+    }
+
+    .visual h1{
+      font-size:50px;
+      letter-spacing:3px;
+    }
+
+    .visual p{
+      margin-top:10px;
+      color:#ddd;
+    }
+
+    /* Right Box */
+    .box{
+      width:55%;
+      padding:60px;
+      color:#fff;
+    }
+
+    .box h2{
+      font-size:32px;
+      color:#ff2e2e;
+    }
+
+    .box span{
+      font-size:14px;
+      color:#aaa;
+    }
+
+    /* Inputs */
+    .input-group{
+      display:flex;
+      align-items:center;
+      margin-top:25px;
+      background:#1b1b1b;
+      border-radius:8px;
+      border:1px solid #333;
+    }
+
+    .input-group i{
+      padding:14px;
+      color:#ff2e2e;
+    }
+
+    .input-group input{
+      flex:1;
+      background:none;
+      border:none;
+      outline:none;
+      color:#fff;
+      padding:14px;
+    }
+
+    /* Button */
+    button{
+      width:100%;
+      margin-top:30px;
+      padding:15px;
+      border:none;
+      border-radius:8px;
+      background:linear-gradient(135deg,#ff2e2e,#a00000);
+      color:#fff;
+      cursor:pointer;
+    }
+
+    button:hover{
+      box-shadow:0 0 25px rgba(255,0,0,.8);
+    }
+
+    /* Links */
+    .signup{
+      margin-top:20px;
+      text-align:center;
+    }
+
+    .signup a{
+      color:#ff2e2e;
+      text-decoration:none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body{padding:15px;}
+      .card{width:100%; height:auto; flex-direction:column; border-radius:16px;}
+      .visual{display:none;}
+      .box{width:100%; padding:30px 20px;}
+      .box h2{text-align:center; font-size:24px;}
+      .box span{display:block; text-align:center; margin-top:5px;}
+      .input-group{margin-top:18px;}
+      button{padding:14px; font-size:16px;}
+      .signup{font-size:14px;}
+    }
+
+    @media (max-width: 400px) {
+      .box{padding:25px 15px;}
+      .box h2{font-size:22px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg-container">
+    <video autoplay muted loop playsinline>
+      <source src="C:\Users\ADMIN\Desktop\Website\image\video3.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="card">
+
+    <!-- Left Visual -->
+    <div class="visual">
+      <h1>SUPER<br>COVERS</h1>
+      <p>Premium superhero phone covers</p>
+    </div>
+
+    <!-- Right Box -->
+    <div class="box">
+      <h2>Forgot Password</h2>
+      <span>Enter your email to reset password</span>
+
+      <form onsubmit="return forgotPassword()">
+
+        <div class="input-group">
+          <i class="fa fa-envelope"></i>
+          <input type="email" id="email" placeholder="Email address" required>
+        </div>
+
+        <button type="submit">Send Reset Link</button>
+
+        <p class="signup">
+          Remembered your password? <a href="login.html">Login here</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+  
+async function forgotPassword() {
+  
+  alert("Button clicked");
+
+  const email = document.getElementById('email').value;
+
+  if (!email) {
+    alert('Please enter your email.');
+    return false;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5000/api/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+
+    if (response.ok) {
+      window.location.href = "reset-password.html";
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert('Something went wrong. Try again.');
+  }
+
+  return false;
+}
+
+  </script>
+
+</body>
+</html>
