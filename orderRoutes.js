@@ -1,12 +1,12 @@
 const express = require("express");
-const Order = require("../Order");
+const Order = require("./Order");
 const router = express.Router();
 
 /* CREATE ORDER (COD + UPI + Razorpay) */
-const Product = require("../Product");
+const Product = require("./Product");
 
-const userAuth = require("../auth");
-const generateInvoice = require("../generateInvoice");
+const userAuth = require("./auth");
+const generateInvoice = require("./generateInvoice");
 
 
 router.post("/create", userAuth, async (req, res) => {
@@ -182,4 +182,5 @@ function sendInvoice(res, order) {
 
 
 module.exports = router;
+
 
