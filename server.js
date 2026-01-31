@@ -28,9 +28,13 @@ app.use("/api/wishlist", require("./routes/wishlist"));
 app.use("/api/user", require("./routes/user"));
 
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
+
 
 
 
