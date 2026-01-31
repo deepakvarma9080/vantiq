@@ -1,8 +1,8 @@
 const express = require("express");
-const Cart = require("../models/Cart");
-const auth = require("../middleware/auth");
+const Cart = require("../Cart");
+const auth = require("../auth");
 const router = express.Router();
-const Product = require("../models/Product");
+const Product = require("../Product");
 
 // ================= GET CART =================
 router.get("/", auth, async (req, res) => {
@@ -120,3 +120,4 @@ router.post("/remove", auth, async (req, res) => {
 
 
 module.exports = router;
+
