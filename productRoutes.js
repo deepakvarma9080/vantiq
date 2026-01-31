@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
-const Product = require("../models/Product");
-const adminAuth = require("../middleware/adminAuth");
+const Product = require("../Product");
+const adminAuth = require("../adminAuth");
 const router = express.Router();
 const path = require("path");
 const fs = require("fs");
@@ -119,3 +119,4 @@ router.put("/:id", adminAuth, async (req, res) => {
 
 
 module.exports = router;
+
