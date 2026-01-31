@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const User = require("../User");
+const User = require("./User");
 
 const hashed = bcrypt.hashSync("1234", 10);
 
@@ -131,4 +131,5 @@ router.post("/reset-password", async (req, res) => {
 
 
 module.exports = router;
+
 
