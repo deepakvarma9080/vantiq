@@ -1,13 +1,13 @@
 const express = require("express");
 const multer = require("multer");
-const Product = require("../Product");
-const adminAuth = require("../adminAuth");
+const Product = require("./Product");
+const adminAuth = require("./adminAuth");
 const router = express.Router();
 const path = require("path");
 const fs = require("fs");
 
 // Create uploads folder if it doesn't exist
-const uploadDir = path.join(__dirname, "../uploads");
+const uploadDir = path.join(__dirname, "./uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
 // Multer setup for multiple images
@@ -119,4 +119,5 @@ router.put("/:id", adminAuth, async (req, res) => {
 
 
 module.exports = router;
+
 
