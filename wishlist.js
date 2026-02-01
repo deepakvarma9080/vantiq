@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Wishlist = require("./models/Wishlist");
-const auth = require("./middleware/auth"); // JWT middleware
+const Wishlist = require("./Wishlist");
+const auth = require("./auth"); // JWT middleware
 
 // ===============================
 // GET USER WISHLIST
@@ -61,4 +61,5 @@ router.post("/toggle", auth, async (req, res) => {
 });
 
 module.exports = router;
+
 
