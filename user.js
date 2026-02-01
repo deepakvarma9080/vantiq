@@ -1,6 +1,6 @@
 const express = require("express");
-const User = require("../models/User");
-const auth = require("../middleware/auth");
+const User = require("./User");
+const auth = require("./auth");
 
 const router = express.Router();
 
@@ -25,3 +25,4 @@ router.get("/me", auth, async (req, res) => {
 });
 
 module.exports = router;
+
