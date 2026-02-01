@@ -1,6 +1,6 @@
 const express = require("express");
-const Cart = require("../Cart");
-const auth = require("../auth");
+const Cart = require("./Cart");
+const auth = require("./auth");
 const router = express.Router();
 const Product = require("./Product");
 
@@ -120,5 +120,6 @@ router.post("/remove", auth, async (req, res) => {
 
 
 module.exports = router;
+
 
 
