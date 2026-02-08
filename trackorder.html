@@ -55,6 +55,7 @@ h1{text-align:center;margin-bottom:25px;color:#333;}
 </div>
 
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
 const form = document.getElementById("trackForm");
 const statusContainer = document.getElementById("statusContainer");
 const errorMsg = document.getElementById("errorMsg");
@@ -84,7 +85,7 @@ form.addEventListener("submit", async (e) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Please login first");
 
-    const res = await fetch("http://localhost:5000/api/orders/my", {
+    const res = await fetch("${API_BASE}/api/orders/my", {
       headers: {
         Authorization: "Bearer " + token
       }
@@ -131,3 +132,4 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
