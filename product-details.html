@@ -181,10 +181,12 @@ body{
 </div>
 
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
+
 const id = new URLSearchParams(window.location.search).get("id");
 
 async function loadProduct(){
-  const res = await fetch("http://localhost:5000/api/product/" + id);
+  const res = await fetch("${API_BASE}/api/product/" + id);
   const p = await res.json();
 
   document.getElementById("pName").innerText = p.name;
@@ -204,14 +206,14 @@ async function loadProduct(){
   const thumbs = document.getElementById("thumbs");
 
   if (p.images && p.images.length) {
-  main.src = "http://localhost:5000/uploads/" + p.images[0];
+  main.src = "${API_BASE}/uploads/" + p.images[0];
 
   p.images.forEach(img => {
     const t = document.createElement("img");
-    t.src = "http://localhost:5000/uploads/" + img;
+    t.src = "${API_BASE}/uploads/" + img;
 
     t.onclick = () => {
-      main.src = "http://localhost:5000/uploads/" + img;
+      main.src = "${API_BASE}/uploads/" + img;
     };
 
     thumbs.appendChild(t);
@@ -240,7 +242,7 @@ function addToCart(){
     return;
   }
 
-  fetch("http://localhost:5000/api/cart/add",{
+  fetch("${API_BASE}/api/cart/add",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -257,3 +259,4 @@ loadProduct();
 
 </body>
 </html>
+
