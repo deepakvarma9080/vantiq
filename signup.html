@@ -299,6 +299,8 @@ button:hover{
 
 <!-- ================= JS ================= -->
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
+
 function toggleSignupPassword() {
   const pass = document.getElementById("signupPassword");
   pass.type = pass.type === "password" ? "text" : "password";
@@ -322,7 +324,7 @@ async function signupUser(e) {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/api/signup", {
+    const response = await fetch(`${API_BASE}/api/product`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fullname, email, password })
@@ -349,3 +351,4 @@ async function signupUser(e) {
 
 </body>
 </html>
+
