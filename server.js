@@ -30,9 +30,17 @@ app.use("/api/user", require("./user"));
 
 const PORT = process.env.PORT || 10000;
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "Vantiq backend is live 🚀"
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
 
