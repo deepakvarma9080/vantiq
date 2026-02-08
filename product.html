@@ -776,6 +776,8 @@ function toggleFilter(){
 <!-- ================= FILTER FUNCTIONALITY js ================= -->
 
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
+
 const priceRange = document.getElementById("priceRange");
 const priceBubble = document.getElementById("priceBubble");
 const filterCount = document.getElementById("filterCount");
@@ -831,16 +833,15 @@ function clearFilters(){
   updatePriceBubble();
 }
 
-</script>
 
-<script>
+
 function applyAndClose(){
   applyFilters();          // apply selected filters
   toggleFilter();          // close filter panel
 }
-</script>
 
-<script>
+
+  
 /* ===== PRICE PRESETS (UNDER 99 / 199) ===== */
 const presets = document.querySelectorAll(".price-presets button");
 
@@ -862,9 +863,8 @@ presets.forEach(btn=>{
 priceRange.addEventListener("input", ()=>{
   presets.forEach(b=>b.classList.remove("active"));
 });
-</script>
 
-<script>
+  
 let wishlistIds = [];
 
 // Load wishlist product IDs
@@ -873,7 +873,7 @@ async function loadWishlistIds(){
   if(!token) return;
 
   try{
-    const res = await fetch("http://localhost:5000/api/wishlist",{
+    const res = await fetch("${API_BASE}/api/wishlist",{
       headers:{ Authorization:"Bearer " + token }
     });
     const data = await res.json();
@@ -893,7 +893,7 @@ async function toggleWishlist(productId, btn){
     return;
   }
 
-  const res = await fetch("http://localhost:5000/api/wishlist/toggle",{
+  const res = await fetch("${API_BASE}/api/wishlist/toggle",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -910,9 +910,7 @@ async function toggleWishlist(productId, btn){
     btn.classList.remove("active");
   }
 }
-</script>
 
-<script>
 async function loadUserProfile() {
   const token = localStorage.getItem("token");
   const nameEl = document.getElementById("profileName");
@@ -925,7 +923,7 @@ async function loadUserProfile() {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/user/me", {
+    const res = await fetch("${API_BASE}/api/user/me", {
       headers: { Authorization: "Bearer " + token }
     });
 
@@ -947,17 +945,17 @@ async function loadUserProfile() {
   }
 }
 
-</script>
+
 
 
 // ================= LOAD PRODUCTS FROM BACKEND =================
 
-<script>
+
 
 // Load products from backend
 async function loadProducts(){
   try{
-    const res = await fetch('http://localhost:5000/api/product'); // your backend route
+    const res = await fetch('${API_BASE}/api/product'); // your backend route
     const products = await res.json();
     const container = document.getElementById('productsContainer');
     container.innerHTML = '';
@@ -971,7 +969,7 @@ async function loadProducts(){
       card.dataset.price = p.price;
 
       card.innerHTML = `
-        <img src="http://localhost:5000/uploads/${p.images?.[0] || ''}"
+        <img src="${API_BASE}/uploads/${p.images?.[0] || ''}"
         alt="${p.name}"
         onclick="openProduct('${p._id}')"
         style="cursor:pointer"/>
@@ -1006,7 +1004,7 @@ function addToCart(productId){
     return;
   }
 
-  fetch("http://localhost:5000/api/cart/add",{
+  fetch("${API_BASE}/api/cart/add",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -1030,7 +1028,7 @@ async function updateCartCount(){
   const token = localStorage.getItem("token");
   if(!token) return;
 
-  const res = await fetch("http://localhost:5000/api/cart",{
+  const res = await fetch("${API_BASE}/api/cart",{
     headers:{Authorization:"Bearer "+token}
   });
   const cart = await res.json();
@@ -1064,4 +1062,5 @@ function openProduct(id){
 
 
 </body>
+
 </html>
