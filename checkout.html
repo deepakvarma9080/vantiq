@@ -150,6 +150,8 @@ textarea{resize:none}
 </div>
 
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
+
 let subtotal = Number(localStorage.getItem("cartSubtotal"));
 
 if(!subtotal || subtotal <= 0){
@@ -197,7 +199,7 @@ function razorpayPay(){
 function completeOrder(method, paymentId=""){
   const items = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-  fetch("http://localhost:5000/api/orders/create", {
+  fetch("${API_BASE}/api/orders/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -229,3 +231,4 @@ renderSummary();
 
 </body>
 </html>
+
