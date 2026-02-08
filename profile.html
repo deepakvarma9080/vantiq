@@ -145,11 +145,13 @@ header img { height: 70px; }
 </div>
 
 <script>
+const API_BASE = "https://vantiq-723z.onrender.com";
+
 // Cart count placeholder
 function updateCartCount(){
   const token = localStorage.getItem("token");
   if(!token) return;
-  fetch("http://localhost:5000/api/cart",{
+  fetch("${API_BASE}/api/cart",{
     headers:{Authorization:"Bearer " + token}
   })
   .then(res=>res.json())
@@ -177,7 +179,7 @@ async function loadProfile(){
   }
 
   try{
-    const res = await fetch("http://localhost:5000/api/user/me",{
+    const res = await fetch("${API_BASE}/api/user/me",{
       headers:{Authorization:"Bearer " + token}
     });
     if(!res.ok) throw new Error("User not logged in");
@@ -190,7 +192,7 @@ async function loadProfile(){
 
     document.getElementById("name").value = data.name;
     document.getElementById("email").value = data.email;
-    if(data.avatar) profileImg.src = "http://localhost:5000/uploads/"+data.avatar;
+    if(data.avatar) profileImg.src = "${API_BASE}/uploads/"+data.avatar;
 
   }catch(err){
     console.error(err);
@@ -210,7 +212,7 @@ async function updateProfile(){
   const password = document.getElementById("password").value;
 
   try{
-    const res = await fetch("http://localhost:5000/api/user/update",{
+    const res = await fetch("${API_BASE}/api/user/update",{
       method:"PUT",
       headers:{
         "Content-Type":"application/json",
@@ -248,3 +250,4 @@ window.onload = ()=>{
 
 </body>
 </html>
+
