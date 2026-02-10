@@ -7,9 +7,10 @@ const path = require("path");
 const fs = require("fs");
 
 // Create uploads folder if it doesn't exist
-const uploadDir = path.join(__dirname, "./uploads");
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-
+const uploadDir = path.join("/tmp", "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 // Multer setup for multiple images
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
@@ -119,5 +120,6 @@ router.put("/:id", adminAuth, async (req, res) => {
 
 
 module.exports = router;
+
 
 
