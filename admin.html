@@ -337,7 +337,7 @@ document.getElementById("addProductForm").onsubmit = async e=>{
   const form = new FormData(e.target);
   const token = localStorage.getItem("token");
 
-  let url = "${API_BASE}/api/product";
+  let url = `${API_BASE}/api/product`;
   let method = "POST";
 
   if(form.get("_id")){ // editing
@@ -370,7 +370,7 @@ document.getElementById("addProductForm").onsubmit = async e=>{
 /* LOAD ORDERS */
 
 async function loadOrders(){
-  const res = await fetch("${API_BASE}/api/orders/all");
+  const res = await fetch(`${API_BASE}/api/orders/all`);
   const orders = await res.json();
 
   const list = document.getElementById("orderList");
@@ -474,5 +474,6 @@ loadOrders();
 </html>
 
   
+
 
 
