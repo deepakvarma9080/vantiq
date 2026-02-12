@@ -873,7 +873,7 @@ async function loadWishlistIds(){
   if(!token) return;
 
   try{
-    const res = await fetch("${API_BASE}/api/wishlist",{
+    const res = await fetch(`${API_BASE}/api/wishlist`,{
       headers:{ Authorization:"Bearer " + token }
     });
     const data = await res.json();
@@ -893,7 +893,7 @@ async function toggleWishlist(productId, btn){
     return;
   }
 
-  const res = await fetch("${API_BASE}/api/wishlist/toggle",{
+  const res = await fetch(`${API_BASE}/api/wishlist/toggle`,{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -923,7 +923,7 @@ async function loadUserProfile() {
   }
 
   try {
-    const res = await fetch("${API_BASE}/api/user/me", {
+    const res = await fetch(`${API_BASE}/api/user/me`, {
       headers: { Authorization: "Bearer " + token }
     });
 
@@ -1004,7 +1004,7 @@ function addToCart(productId){
     return;
   }
 
-  fetch("${API_BASE}/api/cart/add",{
+  fetch(`${API_BASE}/api/cart/add`,{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -1028,7 +1028,7 @@ async function updateCartCount(){
   const token = localStorage.getItem("token");
   if(!token) return;
 
-  const res = await fetch("${API_BASE}/api/cart",{
+  const res = await fetch(`${API_BASE}/api/cart`,{
     headers:{Authorization:"Bearer "+token}
   });
   const cart = await res.json();
@@ -1064,3 +1064,4 @@ function openProduct(id){
 </body>
 
 </html>
+
