@@ -67,7 +67,7 @@ router.post("/", adminAuth, upload.array("images", 5), async (req, res) => {
     }
 
 
-    const images = req.files.map(f => f.filename);
+    const images = req.files ? req.files.map(f => f.filename) : [];
 
     const product = new Product({
       name,
@@ -105,21 +105,48 @@ router.delete("/:id", adminAuth, async (req, res) => {
 });
 
 /* UPDATE PRODUCT */
-router.put("/:id", adminAuth, async (req, res) => {
+/* UPDATE PRODUCT */
+router.put("/:id", adminAuth, upload.array("images", 5), async (req, res) => {
   try {
+
+    const updateData = {
+      name: req.body.name,
+      category: req.body.category,
+      brand: req.body.brand,
+      phone_model: req.body.phone_model,
+      price: req.body.price,
+      original_price: req.body.original_price,
+      quantity: req.body.quantity,
+      highlights: req.body.highlights,
+      description: req.body.description,
+    };
+
+    // If new images uploaded → replace
+    if (req.files && req.files.length > 0) {
+      updateData.images = req.files.map(f => f.filename);
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       { new: true }
     );
-    res.json(product);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Product updated", product });
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
 
 module.exports = router;
+
 
 
 
