@@ -239,7 +239,7 @@ let allProducts=[];
 
 /* LOAD PRODUCTS */
 async function loadProducts(){
-  const res = await fetch("${API_BASE}/api/product");
+  const res = await fetch(`${API_BASE}/api/product`);
   allProducts = await res.json();
   renderProducts(allProducts);
 }
@@ -474,4 +474,5 @@ loadOrders();
 </html>
 
   
+
 
